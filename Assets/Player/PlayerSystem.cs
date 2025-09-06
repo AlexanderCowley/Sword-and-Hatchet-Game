@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -23,28 +24,45 @@ public class PlayerSystem : MonoBehaviour
     Transform PlayerTransform;
     Rigidbody rigidbody;
     Quaternion rotation;
+
+    Transform CameraObject;
     public void Awake()
     {
         PlayerTransform = transform;
         rigidbody = GetComponent<Rigidbody>();
+        CameraObject = transform.GetChild(3);
     }
 
     void OnEnable()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         PlayerMovementData = new PlayerData(15f, rigidbody.linearVelocity, transform.position);
     }
 
     void UpdateCamera()
     {
-        //
+        if (Input.GetAxis("Mouse X") != 0)
+        {
+            transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * 220f * Time.deltaTime);
+        }
+
+        if (Input.GetAxis("Mouse Y") != 0)
+        {
+            //Get child object
+            //CameraObject.Rotate(Vector3.up, Input.GetAxis("Mouse X") * 220f * Time.deltaTime);
+        }
     }
 
     public void Update()
     {
-        transform.position += new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")) *
+        float xAxis = Input.GetAxis("Vertical");
+        float yAxis = -Input.GetAxis("Horizontal");
+        transform.position += (transform.forward * xAxis +
+         transform.right * yAxis) *
          PlayerMovementData.PlayerSpeed * Time.deltaTime;
 
-        
         UpdateCamera();
     }
 }
