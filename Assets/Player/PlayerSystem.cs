@@ -25,6 +25,9 @@ public class PlayerSystem : MonoBehaviour
     Rigidbody rigidbody;
     Quaternion rotation;
 
+    float RotSpeedX = 220f;
+    float RotSpeedY = 220f;
+
     Transform CameraObject;
     public void Awake()
     {
@@ -45,20 +48,19 @@ public class PlayerSystem : MonoBehaviour
     {
         if (Input.GetAxis("Mouse X") != 0)
         {
-            transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * 220f * Time.deltaTime);
+            transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * RotSpeedX * Time.deltaTime);
         }
 
         if (Input.GetAxis("Mouse Y") != 0)
         {
-            //Get child object
-            //CameraObject.Rotate(Vector3.up, Input.GetAxis("Mouse X") * 220f * Time.deltaTime);
+            CameraObject.Rotate(Vector3.right, Input.GetAxis("Mouse Y") * RotSpeedY * Time.deltaTime);
         }
     }
 
     public void Update()
     {
         float xAxis = Input.GetAxis("Vertical");
-        float yAxis = -Input.GetAxis("Horizontal");
+        float yAxis = Input.GetAxis("Horizontal");
         transform.position += (transform.forward * xAxis +
          transform.right * yAxis) *
          PlayerMovementData.PlayerSpeed * Time.deltaTime;
