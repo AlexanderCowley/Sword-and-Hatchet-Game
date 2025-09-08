@@ -5,7 +5,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Manager;
 
     //Player
-    //PlayerData PlayerMovement = new PlayerData(15f);
+    //public static PlayerData PlayerMovement = new PlayerData(15f);
+    public static PlayerInput PlayerInputStatic = new();
     void OnEnable()
     {
         if (Manager == null)
