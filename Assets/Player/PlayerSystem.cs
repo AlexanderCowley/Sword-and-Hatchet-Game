@@ -2,6 +2,13 @@ using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public struct PlayerInput
+{
+    public bool lAttack;
+    public bool hAttack;
+    public bool jumpInput;
+}
+
 public struct PlayerData
 {
     public float PlayerSpeed;
@@ -22,7 +29,7 @@ public class PlayerSystem : MonoBehaviour
 
     public PlayerData PlayerMovementData;
     Transform PlayerTransform;
-    Rigidbody rigidbody;
+    Rigidbody playerRigidbody;
     Quaternion rotation;
 
     float RotSpeedX = 220f;
@@ -32,7 +39,7 @@ public class PlayerSystem : MonoBehaviour
     public void Awake()
     {
         PlayerTransform = transform;
-        rigidbody = GetComponent<Rigidbody>();
+        playerRigidbody = GetComponent<Rigidbody>();
         CameraObject = transform.GetChild(3);
     }
 
@@ -41,14 +48,14 @@ public class PlayerSystem : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        PlayerMovementData = new PlayerData(15f, rigidbody.linearVelocity, transform.position);
+        PlayerMovementData = new PlayerData(15f, playerRigidbody.linearVelocity, transform.position);
     }
 
     void UpdateCamera()
     {
         if (Input.GetAxis("Mouse X") != 0)
         {
-            transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * RotSpeedX * Time.deltaTime);
+            PlayerTransform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * RotSpeedX * Time.deltaTime);
         }
 
         if (Input.GetAxis("Mouse Y") != 0)
@@ -61,8 +68,8 @@ public class PlayerSystem : MonoBehaviour
     {
         float xAxis = Input.GetAxis("Vertical");
         float yAxis = Input.GetAxis("Horizontal");
-        transform.position += (transform.forward * xAxis +
-         transform.right * yAxis) *
+        PlayerTransform.position += (PlayerTransform.forward * xAxis +
+         PlayerTransform.right * yAxis) *
          PlayerMovementData.PlayerSpeed * Time.deltaTime;
 
         UpdateCamera();
