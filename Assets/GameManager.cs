@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Manager;
+    public static int ComboCount;
 
     //Player
     //public static PlayerData PlayerMovement = new PlayerData(15f);
