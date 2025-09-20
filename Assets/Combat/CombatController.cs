@@ -59,6 +59,9 @@ public struct HitboxData
 
 public class CombatController : MonoBehaviour
 {
+    float AttackTimerDelay = 0.25f;
+    float AttackTimer = 0f;
+    bool StartTimer = false;
     void OnEnable()
     {
 
@@ -73,11 +76,25 @@ public class CombatController : MonoBehaviour
 
     void ProcessPlayerInput()
     {
+        if (StartTimer)
+        {
+            AttackTimer += Time.deltaTime;
+            if (AttackTimer >= AttackTimerDelay)
+            {
+                AttackTimer = 0f;
+                StartTimer = false;
+                Debug.Log("Timer Reset");
+            }
+            else return;
+            
+        }
+
         GameManager.PlayerInputStatic.lAttack = Input.GetMouseButtonDown(0);
         GameManager.PlayerInputStatic.hAttack = Input.GetMouseButtonDown(1);
         AttackInput input;
         if (GameManager.PlayerInputStatic.lAttack || GameManager.PlayerInputStatic.hAttack)
         {
+            StartTimer = true;
             //Switch-case statement
             if (GameManager.PlayerInputStatic.lAttack)
                 input = AttackInput.LAttack;
