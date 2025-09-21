@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -62,6 +63,8 @@ public class CombatController : MonoBehaviour
     float AttackTimerDelay = 0.25f;
     float AttackTimer = 0f;
     bool StartTimer = false;
+    int MaxAttackBuffer = 5;
+    public Queue<AttackInput> AttackBuffer = new Queue<AttackInput>();
     void OnEnable()
     {
 
@@ -71,6 +74,11 @@ public class CombatController : MonoBehaviour
     {
         //Look up move in combo. Play animation, sfx, instantiate hitboxes
         //Have a function that takes in two bools so that it will look like ComboLookup(bool lAttack, bool hAttack)
+
+        //For the queue have an attack state that can be measured.
+        if (AttackBuffer.Count >= MaxAttackBuffer)
+            return;
+        AttackBuffer.Enqueue(input);
         WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
     }
 
@@ -86,7 +94,6 @@ public class CombatController : MonoBehaviour
                 Debug.Log("Timer Reset");
             }
             else return;
-            
         }
 
         GameManager.PlayerInputStatic.lAttack = Input.GetMouseButtonDown(0);
@@ -101,7 +108,8 @@ public class CombatController : MonoBehaviour
             else if (GameManager.PlayerInputStatic.hAttack)
                 input = AttackInput.HAttack;
             else input = AttackInput.None;
-                ProcessAttack(input);
+
+            ProcessAttack(input);
         }
 
     }
