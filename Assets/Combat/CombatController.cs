@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -45,7 +44,7 @@ public struct ComboData
 public struct AttackData
 {
     public Vector3[] HitboxPositions;
-    public Animation Animation;
+    public string AnimationName;
     //SFX
 }
 
@@ -65,10 +64,6 @@ public class CombatController : MonoBehaviour
     bool StartTimer = false;
     int MaxAttackBuffer = 5;
     public Queue<AttackInput> AttackBuffer = new Queue<AttackInput>();
-    void OnEnable()
-    {
-
-    }
 
     void ProcessAttack(AttackInput input)
     {
@@ -77,7 +72,10 @@ public class CombatController : MonoBehaviour
 
         //For the queue have an attack state that can be measured.
         if (AttackBuffer.Count >= MaxAttackBuffer)
+        {
+            Debug.Log("Attack Buffer Full");
             return;
+        }
         AttackBuffer.Enqueue(input);
         WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
     }

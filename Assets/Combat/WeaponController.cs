@@ -27,7 +27,7 @@ public class WeaponController : MonoBehaviour
             {
                 GameManager.ComboCount++;
                 //Reference AttackData run Animator to play clip based on ID/Name
-                GameManager.PlayerAnimator.Play("LAttack1");
+                GameManager.PlayerAnimator.Play("LBaseAttack");
                 Debug.Log($"Combo Sequence: {GameManager.ComboCount}");
                 break;
             }
