@@ -1,10 +1,11 @@
 using UnityEngine;
-
+using UnityEngine.Animations;
 public class WeaponController : MonoBehaviour
 {
     public static WeaponController WeaponControllerInstance;
     public static WeaponData CurrentWeapon;
     ComboData[] TestCombos = new ComboData[3];
+    Animation[] WeaponAnimations;
 
     void Awake()
     {
@@ -25,14 +26,16 @@ public class WeaponController : MonoBehaviour
             if (weapon.Combos[i].AttackInputs[GameManager.ComboCount] == attackInput)
             {
                 GameManager.ComboCount++;
-                //Perform attack
+                //Reference AttackData run Animator to play clip based on ID/Name
+                GameManager.PlayerAnimator.Play("LAttack1");
+                Debug.Log($"Combo Sequence: {GameManager.ComboCount}");
+                break;
             }
             else
             {
                 GameManager.ComboCount = 0;
                 Debug.Log("Combo Broken");
-            }    
-            Debug.Log($"Combo Sequence: {GameManager.ComboCount}");
+            } 
         }
     }
 
