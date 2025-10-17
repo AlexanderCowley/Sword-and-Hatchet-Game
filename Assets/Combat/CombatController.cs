@@ -65,6 +65,17 @@ public class CombatController : MonoBehaviour
     int MaxAttackBuffer = 5;
     public Queue<AttackInput> AttackBuffer = new Queue<AttackInput>();
 
+    public static CombatController Instance;
+
+    void OnEnable()
+    {
+        if (Instance == null)
+        {
+            Instance = GetComponent<CombatController>();
+        }
+        DontDestroyOnLoad(this);
+    }
+
     void ProcessAttack(AttackInput input)
     {
         //Look up move in combo. Play animation, sfx, instantiate hitboxes
@@ -78,6 +89,13 @@ public class CombatController : MonoBehaviour
         }
         AttackBuffer.Enqueue(input);
         WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
+    }
+
+    public void FinishAttack()
+    {
+        Debug.Log("Attack finsihed");
+        AttackBuffer.Dequeue();
+        Debug.Log(AttackBuffer.Count);
     }
 
     void ProcessPlayerInput()
