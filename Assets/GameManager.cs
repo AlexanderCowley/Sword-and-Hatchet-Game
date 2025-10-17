@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
             Manager = GetComponent<GameManager>();
         }
         DontDestroyOnLoad(this);
+
+        //Cursor
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         PlayerAnimator = FindAnyObjectByType<PlayerSystem>().transform.GetChild(5).GetComponent<Animator>();
     }
 
