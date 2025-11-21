@@ -40,5 +40,10 @@ public class GameManager : MonoBehaviour
         //AnimResetToIdle();
     }
 
+    public int GenerateEntityID(int lastID = 0)
+    {
+        return lastID++;
+    }
+
 
 }
