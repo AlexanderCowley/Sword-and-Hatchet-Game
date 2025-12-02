@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    int Damage = 0;
+    public int Damage = 0;
     int Stun = 0;
     bool isParry = false;
     
