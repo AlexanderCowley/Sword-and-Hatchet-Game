@@ -63,6 +63,8 @@ public class CombatController : MonoBehaviour
     float AttackTimer = 0f;
     bool StartTimer = false;
     int MaxAttackBuffer = 5;
+
+    //Attack Queue
     public Queue<AttackInput> AttackBuffer = new Queue<AttackInput>();
 
     public static CombatController Instance;
@@ -79,7 +81,6 @@ public class CombatController : MonoBehaviour
     void ProcessAttack(AttackInput input)
     {
         //Look up move in combo. Play animation, sfx, instantiate hitboxes
-        //Have a function that takes in two bools so that it will look like ComboLookup(bool lAttack, bool hAttack)
 
         //For the queue have an attack state that can be measured.
         if (AttackBuffer.Count >= MaxAttackBuffer)
@@ -88,6 +89,7 @@ public class CombatController : MonoBehaviour
             return;
         }
         AttackBuffer.Enqueue(input);
+        //Later: Run Tell state machine to request the next attack instead later...
         WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
     }
 
@@ -128,6 +130,14 @@ public class CombatController : MonoBehaviour
             ProcessAttack(input);
         }
 
+    }
+
+    public void PlayerEnableHitbox()
+    {
+        //Replace with several inactive hitboxes to just be enabled from the weaponanimation receiver 
+        //and position the next hitbox using object pooling
+        
+        //-> GameManager.Player
     }
 
     public void Update()

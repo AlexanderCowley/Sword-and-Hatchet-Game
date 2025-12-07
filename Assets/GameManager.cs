@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Manager;
+    public static PlayerSystem Player;
 
     public static Animator PlayerAnimator;
     public static int ComboCount;
@@ -32,7 +33,8 @@ public class GameManager : MonoBehaviour
         //Cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        PlayerAnimator = FindAnyObjectByType<PlayerSystem>().transform.GetChild(5).GetComponent<Animator>();
+        Player = FindAnyObjectByType<PlayerSystem>();
+        PlayerAnimator = Player.transform.GetChild(5).GetComponent<Animator>();
     }
 
     void Update()
