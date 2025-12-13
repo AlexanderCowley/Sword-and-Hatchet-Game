@@ -34,19 +34,26 @@ public class PlayerSystem : MonoBehaviour
     float RotSpeedY = 220f;
 
     Transform CameraObject;
+
+    PlayerStateMachine MovementStateMachine = null;
+    PlayerCombatStateMachine CombatStateMachine = null;
+
     public void Awake()
     {
         PlayerTransform = transform;
         playerRigidbody = GetComponent<Rigidbody>();
         CameraObject = transform.GetChild(3);
+
+        PlayerMovementData = new PlayerData(15f, playerRigidbody.linearVelocity, transform.position);
+        
+        MovementStateMachine = new PlayerStateMachine(this);
+        CombatStateMachine = new PlayerCombatStateMachine(this);
     }
 
     void OnEnable()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        PlayerMovementData = new PlayerData(15f, playerRigidbody.linearVelocity, transform.position);
     }
 
     void UpdateCamera()
@@ -64,11 +71,14 @@ public class PlayerSystem : MonoBehaviour
 
     public void Update()
     {
-        float xAxis = Input.GetAxis("Vertical");
+        /*float xAxis = Input.GetAxis("Vertical");
         float yAxis = Input.GetAxis("Horizontal");
         PlayerTransform.position += (PlayerTransform.forward * xAxis +
          PlayerTransform.right * yAxis) *
-         PlayerMovementData.PlayerSpeed * Time.deltaTime;
+         PlayerMovementData.PlayerSpeed * Time.deltaTime;*/
+        
+        MovementStateMachine.UpdateState();
+        CombatStateMachine.UpdateState();
 
         UpdateCamera();
     }
