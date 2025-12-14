@@ -6,13 +6,14 @@ public class PlayerCombatStateMachine : AbstractStateMachine
     public PlayerCombatStateMachine(MonoBehaviour playerObject)
     {
         PlayerObject = playerObject;
+        CreateStates();
     }
 
     public override void CreateStates()
     {
-        //Idle
-        //Attacking
-        // -> LAttack1 -> HAttack2 -> etc
+        _states.Add(new CombatIdleState(this));
+        _states.Add(new PlayerAttackState(this));
+        //AttackState -> LAttack1 -> HAttack2 -> etc.
         //Stunned
     }
 }

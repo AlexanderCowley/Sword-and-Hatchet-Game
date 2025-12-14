@@ -114,16 +114,16 @@ public class CombatController : MonoBehaviour
             else return;
         }
 
-        GameManager.PlayerInputStatic.lAttack = Input.GetMouseButtonDown(0);
-        GameManager.PlayerInputStatic.hAttack = Input.GetMouseButtonDown(1);
+        GameManager.CombatInput.lAttack = Input.GetMouseButtonDown(0);
+        GameManager.CombatInput.hAttack = Input.GetMouseButtonDown(1);
         AttackInput input;
-        if (GameManager.PlayerInputStatic.lAttack || GameManager.PlayerInputStatic.hAttack)
+        if (GameManager.CombatInput.lAttack || GameManager.CombatInput.hAttack)
         {
             StartTimer = true;
             //Switch-case statement
-            if (GameManager.PlayerInputStatic.lAttack)
+            if (GameManager.CombatInput.lAttack)
                 input = AttackInput.LAttack;
-            else if (GameManager.PlayerInputStatic.hAttack)
+            else if (GameManager.CombatInput.hAttack)
                 input = AttackInput.HAttack;
             else input = AttackInput.None;
 

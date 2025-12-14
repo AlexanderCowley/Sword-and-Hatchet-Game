@@ -77,9 +77,14 @@ public class PlayerSystem : MonoBehaviour
          PlayerTransform.right * yAxis) *
          PlayerMovementData.PlayerSpeed * Time.deltaTime;*/
         
+        //Process Input
+        GameManager.CombatInput.lAttack = Input.GetMouseButtonDown(0);
+        GameManager.CombatInput.hAttack = Input.GetMouseButtonDown(1);
+
         MovementStateMachine.UpdateState();
         CombatStateMachine.UpdateState();
 
+        
         UpdateCamera();
     }
 }
