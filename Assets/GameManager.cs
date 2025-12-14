@@ -10,18 +10,7 @@ public class GameManager : MonoBehaviour
 
     //Player
     //public static PlayerData PlayerMovement = new PlayerData(15f);
-    public static PlayerInput PlayerInputStatic = new();
-    public void AnimResetToIdle()
-    {
-        if (PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-        {
-            return;
-        }
-        if (PlayerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
-        {
-            PlayerAnimator.Play("Idle");
-        }
-    }
+    public static PlayerInput CombatInput = new();
     void OnEnable()
     {
         if (Manager == null)

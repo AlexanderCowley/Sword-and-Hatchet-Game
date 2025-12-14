@@ -11,7 +11,7 @@ public class IdleState : IState
 
     public void OnStateEntered()
     {
-        StateMachine.Speed = 0;
+        
     }
 
     public void OnStateExecute()
