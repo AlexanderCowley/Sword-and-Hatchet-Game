@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
 public enum AttackInput
 {
-    None = 0,
-    LAttack = 1,
-    HAttack = 2,
-    LHAttack = 3
+    None = -1,
+    LAttack = 0,
+    HAttack = 1
 }
 
 public enum AttackInputType
@@ -18,51 +18,30 @@ public enum AttackInputType
     Repeat = 3
 }
 
-public struct WeaponData
-{
-    public string Name;
-    public int WeaponID;
-    public HitboxData[] Hitboxes;
-    public Vector3[] CurrentHitboxPositions;
-    public int ComboCount;
-
-    public ComboData[] Combos;
-    //Would need to search up based on available combo input
-}
-
-public struct ComboData
-{
-    public AttackData[] Attacks;
-    public AttackInput[] AttackInputs;
-    public AttackInputType[] InputTypes;
-    public bool NextInput()
-    {
-        return false;
-    }
-}
-
-public struct AttackData
-{
-    public Vector3[] HitboxPositions;
-    public string AnimationName;
-    //SFX
-}
-
-//An attack would have to be looked up based on a set of bools (lAttack, hAttack)
-
 public struct HitboxData
 {
     public int Damage;
-    public float Speed;
-    public int WeaponID;
+
+    //References Type of enemy to prevent collisions with same types of enemies or different factions??
+    public int EntityID;
 }
 
 public class CombatController : MonoBehaviour
 {
+    //Player Input
     float AttackTimerDelay = 0.25f;
     float AttackTimer = 0f;
     bool StartTimer = false;
     int MaxAttackBuffer = 5;
+
+    //Combo Count
+    public static int ComboCount = 0;
+
+    [Header("PLAYER WEAPONS")]
+    [Space(3)]
+    public WeaponData[] Weapons;
+
+    public WeaponData CurrentPlayerWeapon;
 
     //Attack Queue
     public Queue<AttackInput> AttackBuffer = new Queue<AttackInput>();
@@ -76,6 +55,8 @@ public class CombatController : MonoBehaviour
             Instance = GetComponent<CombatController>();
         }
         DontDestroyOnLoad(this);
+
+        CurrentPlayerWeapon = Weapons[0];
     }
 
     void ProcessAttack(AttackInput input)
@@ -89,8 +70,8 @@ public class CombatController : MonoBehaviour
             return;
         }
         AttackBuffer.Enqueue(input);
-        //Later: Run Tell state machine to request the next attack instead later...
-        WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
+        //Input
+        //WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
     }
 
     public void FinishAttack()
