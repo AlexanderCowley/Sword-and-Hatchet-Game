@@ -5,6 +5,7 @@ public class AttackData : ScriptableObject
 {
     public string Name = null;
     public int Damage = 0;
+    public int StunDamage = 0;
     
     public string AnimationName = null;
     

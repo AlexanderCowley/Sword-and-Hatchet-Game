@@ -8,15 +8,32 @@ public class PlayerAttackState : IState
     AttackData CurrentAttack;
     WeaponData CurrentWeapon;
 
+    HitBox[] HitBoxes;
+
     public PlayerAttackState(PlayerCombatStateMachine stateMachine)
     {
         StateMachine = stateMachine;
+        //Player should be a static object in GM
         Player = StateMachine.PlayerObject.GetComponent<PlayerSystem>();
     }
 
     void ProcessAttack()
     {
         //Actual attack implementation
+        SetupHitboxes();
+    }
+
+    void SetupHitboxes()
+    {
+        HitBox[] hitBoxes = Player.WeaponHitboxes;
+        int hitboxCount = CurrentAttack.HitboxPositions.Length;
+        //Maybe use a set amount to remove for loop?
+        //This is going to happen almost instantly. Might need a coroutine?
+        for(int i = 0; i < hitboxCount; i++)
+        {
+            hitBoxes[i].AssignHitboxInfo(CurrentAttack);
+            hitBoxes[i].gameObject.transform.position = Player.transform.position + CurrentAttack.HitboxPositions[i];
+        }
     }
 
     public void OnStateEntered()
@@ -28,7 +45,7 @@ public class PlayerAttackState : IState
             Debug.LogWarning("Incorrect Type of input");
             return;
         }
-        //Check weapon
+        //Check weapon since it is going from Combat Idle to Attack
         CurrentWeapon = CombatController.Instance.CurrentPlayerWeapon;
         CurrentAttack = CurrentWeapon.StartingAttacks[(int)combatInput];
         ProcessAttack();

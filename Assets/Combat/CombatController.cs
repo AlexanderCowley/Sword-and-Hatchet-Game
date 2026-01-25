@@ -48,7 +48,7 @@ public class CombatController : MonoBehaviour
 
     public static CombatController Instance;
 
-    void OnEnable()
+    void Awake()
     {
         if (Instance == null)
         {

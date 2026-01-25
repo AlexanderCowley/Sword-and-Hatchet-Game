@@ -16,5 +16,6 @@ public class PlayerCombatStateMachine : AbstractStateMachine
         _states.Add(new CombatIdleState(this));
         _states.Add(new PlayerAttackState(this));
         //Stunned
+        ChangeState<CombatIdleState>();
     }
 }

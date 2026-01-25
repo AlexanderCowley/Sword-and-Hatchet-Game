@@ -38,22 +38,27 @@ public class PlayerSystem : MonoBehaviour
     PlayerStateMachine MovementStateMachine = null;
     PlayerCombatStateMachine CombatStateMachine = null;
 
+    public HitBox[] WeaponHitboxes;
+
     public void Awake()
     {
         PlayerTransform = transform;
         playerRigidbody = GetComponent<Rigidbody>();
-        CameraObject = transform.GetChild(3);
-
+        CameraObject = PlayerTransform.GetChild(3);
+        WeaponHitboxes = PlayerTransform.GetChild(6).GetComponentsInChildren<HitBox>(true);
         PlayerMovementData = new PlayerData(15f, playerRigidbody.linearVelocity, transform.position);
-        
-        MovementStateMachine = new PlayerStateMachine(this);
-        CombatStateMachine = new PlayerCombatStateMachine(this);
     }
 
     void OnEnable()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    void Start()
+    {
+        MovementStateMachine = new PlayerStateMachine(this);
+        CombatStateMachine = new PlayerCombatStateMachine(this);
     }
 
     void UpdateCamera()

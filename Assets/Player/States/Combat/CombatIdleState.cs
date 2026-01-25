@@ -11,15 +11,15 @@ public class CombatIdleState : IState
 
     public void OnStateEntered()
     {
-        
+        Debug.Log("Combat Idle State Entered");
     }
 
     public void OnStateExecute()
     {
-        if(GameManager.CombatInput.lAttack || GameManager.CombatInput.hAttack)
+        if(CombatController.Instance.AttackBuffer.Count > 0)
         {
             //Transition to Attack state here
-            StateMachine.ChangeState<MoveState>();
+            StateMachine.ChangeState<PlayerAttackState>();
             return;
         }
     }
