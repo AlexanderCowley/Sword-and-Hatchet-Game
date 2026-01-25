@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Manager;
     public static PlayerSystem Player;
+    public static HitBox[] PlayerHitboxes;
 
     public static Animator PlayerAnimator;
     public static int ComboCount;
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         Player = FindAnyObjectByType<PlayerSystem>();
         PlayerAnimator = Player.transform.GetChild(5).GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+        PlayerHitboxes = Player.WeaponHitboxes;
     }
 
     void Update()

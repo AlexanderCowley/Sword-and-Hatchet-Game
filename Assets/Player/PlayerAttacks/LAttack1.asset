@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad7e064058369f442bf0d4a1084c00c3, type: 3}
-  m_Name: SwordData
+  m_Script: {fileID: 11500000, guid: 91285d67957529a498dce970df612d32, type: 3}
+  m_Name: LAttack1
   m_EditorClassIdentifier: 
-  Name: Sword
-  WeaponID: 100
-  StartingAttacks:
-  - {fileID: 11400000, guid: 7a4cf294baa2f1d438d8902db0501867, type: 2}
+  Name: LAttack1
+  Damage: 3
+  StunDamage: 0
+  AnimationName: LBaseAttack
+  HitboxPositions:
+  - {x: 0, y: 0.138, z: 0.561}
+  nextAttacks: []
