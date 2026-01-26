@@ -1,10 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerAttackState : IState
 {
     PlayerCombatStateMachine StateMachine;
     PlayerSystem Player;
-    int AttackBufferLength = 0;
     AttackData CurrentAttack;
     WeaponData CurrentWeapon;
 
@@ -18,8 +18,16 @@ public class PlayerAttackState : IState
     void ProcessAttack()
     {
         //Actual attack implementation
-        //Make this a coroutine?
+        //Used to reduce calls.
+        //Find way to get earliest transition during an animation or see what are common factors amongst animations
+        //0.6 feels the most responsive at them moment. We will see.
+        if(GameManager.PlayerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.6)
+        {
+            return;
+        }
+
         SetupHitboxes();
+        Debug.Log("Plays attack animation");
         GameManager.PlayerAnimator.Play(CurrentAttack.AnimationName, 0);
     }
 
@@ -38,7 +46,6 @@ public class PlayerAttackState : IState
 
     public void OnStateEntered()
     {
-        AttackBufferLength = CombatController.Instance.AttackBuffer.Count;
         AttackInput combatInput = CombatController.Instance.AttackBuffer.Peek();
         if(combatInput == AttackInput.None)
         {
@@ -60,8 +67,6 @@ public class PlayerAttackState : IState
         {
             return;
         }
-
-        AttackBufferLength = CombatController.Instance.AttackBuffer.Count;
         AttackInput combatInput = CombatController.Instance.AttackBuffer.Peek();
         
         //Checks if the weapon has changed
