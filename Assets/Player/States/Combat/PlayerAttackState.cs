@@ -8,8 +8,6 @@ public class PlayerAttackState : IState
     AttackData CurrentAttack;
     WeaponData CurrentWeapon;
 
-    HitBox[] HitBoxes;
-
     public PlayerAttackState(PlayerCombatStateMachine stateMachine)
     {
         StateMachine = stateMachine;
@@ -20,7 +18,9 @@ public class PlayerAttackState : IState
     void ProcessAttack()
     {
         //Actual attack implementation
+        //Make this a coroutine?
         SetupHitboxes();
+        GameManager.PlayerAnimator.Play(CurrentAttack.AnimationName, 0);
     }
 
     void SetupHitboxes()
@@ -45,7 +45,7 @@ public class PlayerAttackState : IState
             Debug.LogWarning("Incorrect Type of input");
             return;
         }
-        //Check weapon since it is going from Combat Idle to Attack
+        //Check weapon since it is going from Combat Idle to Attack?
         CurrentWeapon = CombatController.Instance.CurrentPlayerWeapon;
         CurrentAttack = CurrentWeapon.StartingAttacks[(int)combatInput];
         ProcessAttack();
@@ -55,8 +55,8 @@ public class PlayerAttackState : IState
     {
         //Create conditions for moving from attack state to idle
         //Check for stun state
-        //Checks if any new attacks are in the queue
-        if(AttackBufferLength == CombatController.Instance.AttackBuffer.Count)
+        //Checks if the Queue is empty
+        if(CombatController.Instance.AttackBuffer.Count == 0)
         {
             return;
         }
@@ -74,6 +74,11 @@ public class PlayerAttackState : IState
         {
             //Update AttackData based on the current one
             CurrentAttack = CurrentAttack.nextAttacks[(int)combatInput];
+        }
+        //Reset to look for other combos to go from
+        if(CurrentAttack.nextAttacks.Length == 0)
+        {
+            CurrentAttack = CurrentWeapon.StartingAttacks[(int)combatInput];
         }
         
         ProcessAttack();

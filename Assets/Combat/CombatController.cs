@@ -76,7 +76,7 @@ public class CombatController : MonoBehaviour
 
     public void FinishAttack()
     {
-        Debug.Log("Attack finsihed");
+        Debug.Log("Attack finished");
         AttackBuffer.Dequeue();
         Debug.Log(AttackBuffer.Count);
     }

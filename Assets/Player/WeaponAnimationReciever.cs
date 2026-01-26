@@ -12,7 +12,6 @@ public class WeaponAnimationReciever : MonoBehaviour
     HitBox currentHitbox;
     public void SpawnHitbox()
     {
-        Debug.Log("Spawn hitboxes");
         //Should be something like currentHitbox = CombatController.Instance.GetNextHitbox
         if(GameManager.PlayerHitboxes.Length - 1 > HitboxCounter)
         {
@@ -21,7 +20,6 @@ public class WeaponAnimationReciever : MonoBehaviour
         }
         currentHitbox = GameManager.PlayerHitboxes[HitboxCounter];
         currentHitbox.gameObject.SetActive(true);
-        Debug.Log(currentHitbox);
         HitboxCounter++;
     }
 
