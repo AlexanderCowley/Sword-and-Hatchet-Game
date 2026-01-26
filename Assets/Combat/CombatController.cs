@@ -29,7 +29,7 @@ public struct HitboxData
 public class CombatController : MonoBehaviour
 {
     //Player Input
-    float AttackTimerDelay = 0.25f;
+    float AttackTimerDelay = 0.15f;
     float AttackTimer = 0f;
     bool StartTimer = false;
     int MaxAttackBuffer = 5;
