@@ -15,10 +15,11 @@ public class WeaponAnimationReciever : MonoBehaviour
         //Should be something like currentHitbox = CombatController.Instance.GetNextHitbox
         if(GameManager.PlayerHitboxes.Length - 1 > HitboxCounter)
         {
-            Debug.LogWarning("Max Hitboxes Exceeded");
+            //Debug.Log("Max Hitboxes Met");
             return;
         }
         currentHitbox = GameManager.PlayerHitboxes[HitboxCounter];
+        Debug.Log(currentHitbox, currentHitbox.gameObject);
         currentHitbox.gameObject.SetActive(true);
         HitboxCounter++;
     }

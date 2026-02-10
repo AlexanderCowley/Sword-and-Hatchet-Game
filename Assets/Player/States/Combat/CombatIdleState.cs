@@ -11,7 +11,7 @@ public class CombatIdleState : IState
 
     public void OnStateEntered()
     {
-        Debug.Log("Combat Idle State Entered");
+        //Debug.Log("Combat Idle State Entered");
     }
 
     public void OnStateExecute()

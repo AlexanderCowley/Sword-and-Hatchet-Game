@@ -4,6 +4,7 @@ public class PlayerCombatStateMachine : AbstractStateMachine
 {
     public MonoBehaviour PlayerObject = null;
     WeaponData CurrentWeapon;
+    public bool isAttacking = false;
     public PlayerCombatStateMachine(MonoBehaviour playerObject)
     {
         PlayerObject = playerObject;

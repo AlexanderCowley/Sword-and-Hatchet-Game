@@ -76,9 +76,10 @@ public class CombatController : MonoBehaviour
 
     public void FinishAttack()
     {
-        Debug.Log("Attack finished");
+        //Release attack state
+        GameManager.Player.CombatStateMachine.isAttacking = false;
         AttackBuffer.Dequeue();
-        Debug.Log(AttackBuffer.Count);
+        //Debug.Log($"Attack Buffer Count: {AttackBuffer.Count}");
     }
 
     void ProcessPlayerInput()
@@ -90,7 +91,7 @@ public class CombatController : MonoBehaviour
             {
                 AttackTimer = 0f;
                 StartTimer = false;
-                Debug.Log("Timer Reset");
+                //Debug.Log("Timer Reset");
             }
             else return;
         }
