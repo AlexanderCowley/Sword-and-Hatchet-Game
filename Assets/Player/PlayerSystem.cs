@@ -35,8 +35,8 @@ public class PlayerSystem : MonoBehaviour
 
     Transform CameraObject;
 
-    PlayerStateMachine MovementStateMachine = null;
-    PlayerCombatStateMachine CombatStateMachine = null;
+    public PlayerStateMachine MovementStateMachine = null;
+    public PlayerCombatStateMachine CombatStateMachine = null;
 
     public HitBox[] WeaponHitboxes;
 
@@ -75,13 +75,7 @@ public class PlayerSystem : MonoBehaviour
     }
 
     public void Update()
-    {
-        /*float xAxis = Input.GetAxis("Vertical");
-        float yAxis = Input.GetAxis("Horizontal");
-        PlayerTransform.position += (PlayerTransform.forward * xAxis +
-         PlayerTransform.right * yAxis) *
-         PlayerMovementData.PlayerSpeed * Time.deltaTime;*/
-        
+    {     
         //Process Input
         GameManager.CombatInput.lAttack = Input.GetMouseButtonDown(0);
         GameManager.CombatInput.hAttack = Input.GetMouseButtonDown(1);

@@ -13,25 +13,22 @@ public class HitBox : MonoBehaviour
 
     void OnEnable()
     {
-        if(HitboxData == null)
-        {
-            return;
-        }
-        Damage = HitboxData.Damage;
-        StunDamage = HitboxData.StunDamage;
+        //Potentially what can happen is that AttackData can be null when it is enabled.
         StartTimer = true;
+        Debug.Log("Hitbox Enabled");
     }
 
     void HitboxTimer()
     {
         if(StartTimer)
         {
+            Debug.Log("Hitbox Timer Called", gameObject);
             AttackTimer += Time.deltaTime;
             if (AttackTimer >= MaxTimer)
             {
                 AttackTimer = 0f;
                 StartTimer = false;
-                Debug.Log("Hit Box -> Released");
+                Debug.LogWarning("Hit Box -> Released");
                 gameObject.SetActive(false);
             }
             else return;
@@ -56,6 +53,10 @@ public class HitBox : MonoBehaviour
     {
         if(other.GetComponent<Hurtbox>() != null)
         {
+            if(HitboxData == null)
+            {
+                Debug.Log("No Attack Data!");
+            }
             Debug.Log("Made contact");
         }
     }

@@ -11,8 +11,7 @@ public class PlayerAttackState : IState
     public PlayerAttackState(PlayerCombatStateMachine stateMachine)
     {
         StateMachine = stateMachine;
-        //Player should be a static object in GM
-        Player = StateMachine.PlayerObject.GetComponent<PlayerSystem>();
+        Player = GameManager.Player;
     }
 
     void ProcessAttack()
@@ -21,14 +20,25 @@ public class PlayerAttackState : IState
         //Used to reduce calls.
         //Find way to get earliest transition during an animation or see what are common factors amongst animations
         //0.6 feels the most responsive at them moment. We will see.
-        if(GameManager.PlayerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.6)
+        /*if(GameManager.PlayerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.6)
         {
             return;
-        }
+        }*/
 
+        //Debug.Log("Plays attack animation");
+        Player.StartCoroutine(PlayCombatAnimation());
+    }
+
+    IEnumerator PlayCombatAnimation()
+    {
         SetupHitboxes();
-        Debug.Log("Plays attack animation");
+        yield return null;
         GameManager.PlayerAnimator.Play(CurrentAttack.AnimationName, 0);
+        StateMachine.isAttacking = true;
+        while(StateMachine.isAttacking == true)
+        {
+            yield return null;
+        }
     }
 
     void SetupHitboxes()
