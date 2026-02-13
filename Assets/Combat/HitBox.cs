@@ -14,21 +14,24 @@ public class HitBox : MonoBehaviour
     void OnEnable()
     {
         //Potentially what can happen is that AttackData can be null when it is enabled.
+        if(HitboxData == null)
+        {
+            Debug.LogWarning("Hitbox Data is Null");
+            gameObject.SetActive(false);
+            return;
+        }
         StartTimer = true;
-        Debug.Log("Hitbox Enabled");
     }
 
     void HitboxTimer()
     {
         if(StartTimer)
         {
-            Debug.Log("Hitbox Timer Called", gameObject);
             AttackTimer += Time.deltaTime;
             if (AttackTimer >= MaxTimer)
             {
                 AttackTimer = 0f;
                 StartTimer = false;
-                Debug.LogWarning("Hit Box -> Released");
                 gameObject.SetActive(false);
             }
             else return;
