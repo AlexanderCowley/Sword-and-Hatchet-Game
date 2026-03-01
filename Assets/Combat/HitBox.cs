@@ -3,16 +3,28 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     public AttackData HitboxData;
+    public int AttackID = -1;
     public int Damage = 0;
     public int StunDamage = 0;
+
+    [Space(20)]
+    [Header("Debugging")]
+    [SerializeField] bool isDebugging = false;
     bool isParry = false;
 
     bool StartTimer = false;
     float AttackTimer = 0;
-    float MaxTimer = 0.5f;
+    float MaxTimer = 0.15f;
+
 
     void OnEnable()
     {
+        //Allows editor manipulation
+        if(isDebugging)
+        {
+            return;
+        }
+
         //Potentially what can happen is that AttackData can be null when it is enabled.
         if(HitboxData == null)
         {
@@ -43,6 +55,7 @@ public class HitBox : MonoBehaviour
         HitboxData = attackData;
         Damage = HitboxData.Damage;
         StunDamage = HitboxData.StunDamage;
+        AttackID = attackData.AttackID;
     }
 
     void OnDisable()

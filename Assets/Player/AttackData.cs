@@ -9,11 +9,17 @@ public class AttackData : ScriptableObject
     
     public string AnimationName = null;
     
+    public int AttackID = 0;
     public Vector3[] HitboxPositions;
 
     //Will not be larger than the amount of inputs there are. Mapped to either
     public AttackData[] nextAttacks;
     //Effects like knockback, etc.
     //VFX, SFX
-    
+
+    void OnEnable()
+    {
+        AttackID = GameManager.GenerateAttackIDs(isPlayer: true);
+    }
+
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Manager;
@@ -8,9 +8,8 @@ public class GameManager : MonoBehaviour
 
     public static Animator PlayerAnimator;
     public static int ComboCount;
-
-    //Player
-    //public static PlayerData PlayerMovement = new PlayerData(15f);
+    static int CurrentID = 0;
+    static Stack<int> ActiveAttackIDs = new Stack<int>();
     public static PlayerInput CombatInput = new();
     void OnEnable()
     {
@@ -32,9 +31,25 @@ public class GameManager : MonoBehaviour
         PlayerHitboxes = Player.WeaponHitboxes;
     }
 
-    void Update()
+    public static int GenerateAttackIDs(int modifier = 1, bool isPlayer = false)
     {
-        //AnimResetToIdle();
+        int result;
+        if(isPlayer)
+        {
+            result = 0;
+        }
+        else
+        {
+            result = 100 * modifier;
+        }
+
+        while(ActiveAttackIDs.Contains(result))
+        {
+            result++;
+        }
+
+        ActiveAttackIDs.Push(result);
+        return result;
     }
 
     public int GenerateEntityID(int lastID = 0)
