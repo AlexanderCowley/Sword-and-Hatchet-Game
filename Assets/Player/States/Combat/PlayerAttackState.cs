@@ -16,16 +16,6 @@ public class PlayerAttackState : IState
 
     void ProcessAttack()
     {
-        //Actual attack implementation
-        //Used to reduce calls.
-        //Find way to get earliest transition during an animation or see what are common factors amongst animations
-        //0.6 feels the most responsive at them moment. We will see.
-        /*if(GameManager.PlayerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.6)
-        {
-            return;
-        }*/
-
-        //Debug.Log("Plays attack animation");
         Player.StartCoroutine(PlayCombatAnimation());
     }
 

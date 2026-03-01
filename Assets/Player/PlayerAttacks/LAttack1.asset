@@ -17,8 +17,8 @@ MonoBehaviour:
   StunDamage: 0
   AnimationName: LBaseAttack
   HitboxPositions:
-  - {x: 0, y: 0.138, z: 0.561}
-  - {x: 0, y: 0.338, z: 0.7}
-  - {x: 0, y: 0.2, z: 0.3}
+  - {x: 0, y: 0, z: 0.561}
+  - {x: 0, y: 0.2, z: 0.7}
+  - {x: 0, y: 0.05, z: 0.7}
   nextAttacks:
   - {fileID: 11400000, guid: c618fc82d87081b47a2c2975747a9de5, type: 2}

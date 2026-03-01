@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Sword
   WeaponID: 100
+  isPlayer: 1
   StartingAttacks:
   - {fileID: 11400000, guid: 7a4cf294baa2f1d438d8902db0501867, type: 2}
