@@ -2,13 +2,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {
-    int index = 0;
+    static int sceneIndex = 0;
 
-    void GoToNextScene()
+    public static SceneController Instance;
+
+    public void Awake()
     {
-        index++;
-        if (index % SceneManager.sceneCount != 0)
-            return;
-        SceneManager.LoadScene(index++);
+        if (Instance == null)
+        {
+            Instance = GetComponent<SceneController>();
+        }
+        DontDestroyOnLoad(this);
+    }
+
+    public static void GoToNextScene()
+    {
+        sceneIndex = (sceneIndex + 1) % SceneManager.sceneCountInBuildSettings;
+        SceneManager.LoadScene(sceneIndex);
     }
 }
