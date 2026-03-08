@@ -71,9 +71,8 @@ public class HitBox : MonoBehaviour
         {
             if(HitboxData == null)
             {
-                Debug.Log("No Attack Data!");
+                Debug.LogWarning("No Attack Data!");
             }
-            Debug.Log("Made contact");
         }
     }
 

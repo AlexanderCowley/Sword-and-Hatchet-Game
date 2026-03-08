@@ -46,7 +46,7 @@ public class PlayerAttackState : IState
 
     public void OnStateEntered()
     {
-        AttackInput combatInput = CombatController.Instance.AttackBuffer.Peek();
+        AttackInput combatInput = CombatController.AttackBuffer.Peek();
         if(combatInput == AttackInput.None)
         {
             Debug.LogWarning("Incorrect Type of input");
@@ -63,11 +63,11 @@ public class PlayerAttackState : IState
         //Create conditions for moving from attack state to idle
         //Check for stun state
         //Checks if the Queue is empty
-        if(CombatController.Instance.AttackBuffer.Count == 0)
+        if(CombatController.AttackBuffer.Count == 0)
         {
             return;
         }
-        AttackInput combatInput = CombatController.Instance.AttackBuffer.Peek();
+        AttackInput combatInput = CombatController.AttackBuffer.Peek();
         
         //Checks if the weapon has changed
         if(CurrentWeapon != CombatController.Instance.CurrentPlayerWeapon)

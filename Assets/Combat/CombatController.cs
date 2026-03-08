@@ -43,8 +43,11 @@ public class CombatController : MonoBehaviour
 
     public WeaponData CurrentPlayerWeapon;
 
+    static HitBox[] PlayerHitboxes;
+    static int HitboxCounter = 0;
+
     //Attack Queue
-    public Queue<AttackInput> AttackBuffer = new Queue<AttackInput>();
+    public static Queue<AttackInput> AttackBuffer = new Queue<AttackInput>();
 
     public static CombatController Instance;
 
@@ -57,6 +60,11 @@ public class CombatController : MonoBehaviour
         DontDestroyOnLoad(this);
 
         CurrentPlayerWeapon = Weapons[0];
+    }
+
+    void Start()
+    {
+        PlayerHitboxes = GameManager.Player.WeaponHitboxes;
     }
 
     void ProcessAttack(AttackInput input)
@@ -74,11 +82,24 @@ public class CombatController : MonoBehaviour
         //WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
     }
 
-    public void FinishAttack()
+    public static void EnableNextHitbox()
+    {
+        if(HitboxCounter >= PlayerHitboxes.Length - 1)
+        {
+            Debug.LogWarning("Max Hitboxes Met");
+            return;
+        }
+        
+        PlayerHitboxes[HitboxCounter].gameObject.SetActive(true);
+        HitboxCounter++;
+    }
+
+    public static void FinishAttack()
     {
         //Release attack state
         GameManager.Player.CombatStateMachine.isAttacking = false;
         AttackBuffer.Dequeue();
+        HitboxCounter = 0;
         //Debug.Log($"Attack Buffer Count: {AttackBuffer.Count}");
     }
 
@@ -112,14 +133,6 @@ public class CombatController : MonoBehaviour
             ProcessAttack(input);
         }
 
-    }
-
-    public void PlayerEnableHitbox()
-    {
-        //Replace with several inactive hitboxes to just be enabled from the weaponanimation receiver 
-        //and position the next hitbox using object pooling
-        
-        //-> GameManager.Player
     }
 
     public void Update()

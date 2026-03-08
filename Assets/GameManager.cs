@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 
     public static Animator PlayerAnimator;
     public static int ComboCount;
-    static int CurrentID = 0;
     static Stack<int> ActiveAttackIDs = new Stack<int>();
     public static PlayerInput CombatInput = new();
     void OnEnable()
