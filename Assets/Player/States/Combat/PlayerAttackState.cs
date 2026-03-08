@@ -40,7 +40,7 @@ public class PlayerAttackState : IState
         for(int i = 0; i < hitboxCount; i++)
         {
             hitBoxes[i].AssignHitboxInfo(CurrentAttack);
-            hitBoxes[i].gameObject.transform.position = Player.transform.position + CurrentAttack.HitboxPositions[i];
+            hitBoxes[i].gameObject.transform.localPosition = CurrentAttack.HitboxPositions[i];
         }
     }
 
