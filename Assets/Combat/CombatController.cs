@@ -96,11 +96,12 @@ public class CombatController : MonoBehaviour
 
     public static void FinishAttack()
     {
+        Debug.Log("Attack Finished");
         //Release attack state
+        GameManager.Player.CombatStateMachine.CurrentAttack = null;
         GameManager.Player.CombatStateMachine.isAttacking = false;
         AttackBuffer.Dequeue();
         HitboxCounter = 0;
-        //Debug.Log($"Attack Buffer Count: {AttackBuffer.Count}");
     }
 
     void ProcessPlayerInput()

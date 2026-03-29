@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91285d67957529a498dce970df612d32, type: 3}
   m_Name: LAttack2
   m_EditorClassIdentifier: 
-  Name: 
+  Name: LAttack2
   Damage: 4
   StunDamage: 2
   AnimationName: LBaseAttack
@@ -22,4 +22,4 @@ MonoBehaviour:
   - {x: 0, y: 0.506, z: 0.2}
   - {x: 0, y: -0.703, z: 0.2}
   nextAttacks:
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 7a4cf294baa2f1d438d8902db0501867, type: 2}

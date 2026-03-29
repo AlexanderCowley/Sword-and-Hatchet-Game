@@ -9,6 +9,7 @@ public class WeaponAnimationReciever : MonoBehaviour
 
     public void AttackFinished()
     {
+        Debug.Log("Attack Finished");
         CombatController.FinishAttack();
     }
 }

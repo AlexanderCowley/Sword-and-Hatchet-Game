@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,8 +6,11 @@ public class PlayerAttackState : IState
 {
     PlayerCombatStateMachine StateMachine;
     PlayerSystem Player;
-    AttackData CurrentAttack;
+    public AttackData CurrentAttack;
+    AttackData NextAttack;
     WeaponData CurrentWeapon;
+
+    int inputIndex = -1;
 
     public PlayerAttackState(PlayerCombatStateMachine stateMachine)
     {
@@ -16,19 +20,13 @@ public class PlayerAttackState : IState
 
     void ProcessAttack()
     {
-        Player.StartCoroutine(PlayCombatAnimation());
-    }
-
-    IEnumerator PlayCombatAnimation()
-    {
-        SetupHitboxes();
-        yield return null;
-        GameManager.PlayerAnimator.Play(CurrentAttack.AnimationName, 0);
-        StateMachine.isAttacking = true;
-        while(StateMachine.isAttacking == true)
+        if(!CurrentAttack)
         {
-            yield return null;
+            Debug.Log("No current attack assigned");
+            return;
         }
+        SetupHitboxes();
+        GameManager.PlayerAnimator.Play(CurrentAttack.AnimationName, 0);
     }
 
     void SetupHitboxes()
@@ -47,14 +45,20 @@ public class PlayerAttackState : IState
     public void OnStateEntered()
     {
         AttackInput combatInput = CombatController.AttackBuffer.Peek();
+        inputIndex = (int)combatInput;
         if(combatInput == AttackInput.None)
         {
             Debug.LogWarning("Incorrect Type of input");
             return;
         }
-        //Check weapon since it is going from Combat Idle to Attack?
         CurrentWeapon = CombatController.Instance.CurrentPlayerWeapon;
-        CurrentAttack = CurrentWeapon.StartingAttacks[(int)combatInput];
+        if(inputIndex <= CurrentWeapon.StartingAttacks.Length - 1)
+        {
+            CurrentAttack = CurrentWeapon.StartingAttacks[inputIndex];
+            StateMachine.CurrentAttack = CurrentAttack;
+        }
+
+        GetAttack();
         ProcessAttack();
     }
 
@@ -65,32 +69,65 @@ public class PlayerAttackState : IState
         //Checks if the Queue is empty
         if(CombatController.AttackBuffer.Count == 0)
         {
+            //ChangeState to Idle, don't feel like testing this right now
             return;
         }
+
         AttackInput combatInput = CombatController.AttackBuffer.Peek();
-        
+        inputIndex = (int)combatInput;
+
         //Checks if the weapon has changed
         if(CurrentWeapon != CombatController.Instance.CurrentPlayerWeapon)
         {
             CurrentWeapon = CombatController.Instance.CurrentPlayerWeapon;
-            CurrentAttack = CurrentWeapon.StartingAttacks[(int)combatInput];
+        }
+
+        //Enable this after CurrentAttack runs its functions in ProcessAttack
+        GetAttack();
+        ProcessAttack();
+    }
+
+    void GetAttack()
+    {
+        if(NextAttack == null || NextAttack.nextAttacks.Length == 0)
+        {
+            //Reset attacks
+            if(inputIndex > CurrentWeapon.StartingAttacks.Length - 1)
+            {
+                Debug.Log("No combo uses this input");
+                CombatController.AttackBuffer.Dequeue();
+                NextAttack = null;
+                return;
+            }
+            Debug.Log("Starting attack from weapon");
+            NextAttack = CurrentWeapon.StartingAttacks[inputIndex];
+        }
+        else if(inputIndex <= CurrentAttack.nextAttacks.Length - 1)
+        {
+            Debug.Log("Valid combo input");
+            NextAttack = CurrentAttack.nextAttacks[inputIndex];
         }
         else
         {
-            //Update AttackData based on the current one
-            CurrentAttack = CurrentAttack.nextAttacks[(int)combatInput];
+            Debug.Log("Not a valid combo input.");
+            NextAttack = null;
+            CombatController.AttackBuffer.Dequeue();
         }
-        //Reset to look for other combos to go from
-        if(CurrentAttack.nextAttacks.Length == 0)
+
+        //If CurrentAttack is still null
+        if(!CurrentAttack)
         {
-            CurrentAttack = CurrentWeapon.StartingAttacks[(int)combatInput];
+            CurrentAttack = NextAttack;
+            StateMachine.CurrentAttack = CurrentAttack;
+            NextAttack = null;
         }
-        
-        ProcessAttack();
     }
 
     public void OnStateExit()
     {
-        
+        CurrentAttack = null;
+        StateMachine.CurrentAttack = null;
+        NextAttack = null;
+        inputIndex = -1;
     }
 }
