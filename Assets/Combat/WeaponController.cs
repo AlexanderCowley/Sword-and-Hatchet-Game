@@ -13,6 +13,12 @@ public class WeaponController : MonoBehaviour
         {
             WeaponControllerInstance = GetComponent<WeaponController>();
         }
+
+        if(WeaponControllerInstance != null && WeaponControllerInstance != this)
+        {
+            Destroy(gameObject);
+        }
+
         DontDestroyOnLoad(this);
     }
 

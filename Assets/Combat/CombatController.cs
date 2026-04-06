@@ -57,7 +57,15 @@ public class CombatController : MonoBehaviour
         {
             Instance = GetComponent<CombatController>();
         }
+
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
         DontDestroyOnLoad(this);
+        AttackBuffer.Clear();
+        Debug.Log($"Attack Buffer Link: {AttackBuffer.Count}");
 
         CurrentPlayerWeapon = Weapons[0];
     }
@@ -71,15 +79,12 @@ public class CombatController : MonoBehaviour
     {
         //Look up move in combo. Play animation, sfx, instantiate hitboxes
 
-        //For the queue have an attack state that can be measured.
         if (AttackBuffer.Count >= MaxAttackBuffer)
         {
             Debug.Log("Attack Buffer Full");
             return;
         }
         AttackBuffer.Enqueue(input);
-        //Input
-        //WeaponController.WeaponControllerInstance.LookupCombo(WeaponController.CurrentWeapon, input);
     }
 
     public static void EnableNextHitbox()
@@ -87,6 +92,7 @@ public class CombatController : MonoBehaviour
         if(HitboxCounter >= PlayerHitboxes.Length - 1)
         {
             Debug.LogWarning("Max Hitboxes Met");
+            AttackBuffer.Clear();
             return;
         }
         
@@ -106,6 +112,12 @@ public class CombatController : MonoBehaviour
 
     void ProcessPlayerInput()
     {
+        if(!GameManager.PlayerInputEnabled)
+        {
+            StartTimer = false;
+            return;
+        }
+
         if (StartTimer)
         {
             AttackTimer += Time.deltaTime;

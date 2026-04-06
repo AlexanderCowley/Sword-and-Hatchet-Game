@@ -61,6 +61,12 @@ public class PlayerSystem : MonoBehaviour
         CombatStateMachine = new PlayerCombatStateMachine(this);
     }
 
+    public void ResetPlayerStates()
+    {
+        MovementStateMachine.ResetCombatState();
+        CombatStateMachine.ResetCombatState();
+    }
+
     void UpdateCamera()
     {
         if (Input.GetAxis("Mouse X") != 0)
@@ -75,8 +81,9 @@ public class PlayerSystem : MonoBehaviour
     }
 
     public void Update()
-    {     
+    {
         //Process Input
+        if(!GameManager.PlayerInputEnabled) return;
         GameManager.CombatInput.lAttack = Input.GetMouseButtonDown(0);
         GameManager.CombatInput.hAttack = Input.GetMouseButtonDown(1);
 
