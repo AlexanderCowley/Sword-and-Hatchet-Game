@@ -13,6 +13,7 @@ public class PlayerCombatStateMachine : AbstractStateMachine
         CurrentWeapon = CombatController.Instance.CurrentPlayerWeapon;
     }
 
+
     public override void CreateStates()
     {
         _states.Add(new CombatIdleState(this));
@@ -20,4 +21,10 @@ public class PlayerCombatStateMachine : AbstractStateMachine
         //Stunned
         ChangeState<CombatIdleState>();
     }
+    
+    public void ResetCombatState()
+    {
+        ChangeState<CombatIdleState>();
+    }
+
 }

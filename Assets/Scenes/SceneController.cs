@@ -12,12 +12,26 @@ public class SceneController : MonoBehaviour
         {
             Instance = GetComponent<SceneController>();
         }
+
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
         DontDestroyOnLoad(this);
+        GameManager.PlayerInputEnabled = true;
     }
 
     public static void GoToNextScene()
     {
+        SceneCleanUp();
         sceneIndex = (sceneIndex + 1) % SceneManager.sceneCountInBuildSettings;
         SceneManager.LoadScene(sceneIndex);
+    }
+
+    static void SceneCleanUp()
+    {
+        GameManager.PlayerInputEnabled = false;
+        CombatController.AttackBuffer.Clear();
+        GameManager.ResetPlayer();
     }
 }

@@ -20,4 +20,9 @@ public class PlayerStateMachine : AbstractStateMachine
         _states.Add(new MoveState(this));
         //Stunned
     }
+
+    public void ResetCombatState()
+    {
+        ChangeState<IdleState>();
+    }
 }

@@ -37,6 +37,7 @@ public class PlayerAttackState : IState
         //This is going to happen almost instantly. Might need a coroutine?
         for(int i = 0; i < hitboxCount; i++)
         {
+            //Problem area here
             hitBoxes[i].AssignHitboxInfo(CurrentAttack);
             hitBoxes[i].gameObject.transform.localPosition = CurrentAttack.HitboxPositions[i];
         }
@@ -44,6 +45,9 @@ public class PlayerAttackState : IState
 
     public void OnStateEntered()
     {
+        CurrentAttack = null;
+        StateMachine.CurrentAttack = null;
+        NextAttack = null;
         AttackInput combatInput = CombatController.AttackBuffer.Peek();
         inputIndex = (int)combatInput;
         if(combatInput == AttackInput.None)
@@ -67,6 +71,7 @@ public class PlayerAttackState : IState
         //Create conditions for moving from attack state to idle
         //Check for stun state
         //Checks if the Queue is empty
+        Debug.Log($"-----Attack Buffer: {CombatController.AttackBuffer.Count}----");
         if(CombatController.AttackBuffer.Count == 0)
         {
             //ChangeState to Idle, don't feel like testing this right now
@@ -99,12 +104,10 @@ public class PlayerAttackState : IState
                 NextAttack = null;
                 return;
             }
-            Debug.Log("Starting attack from weapon");
             NextAttack = CurrentWeapon.StartingAttacks[inputIndex];
         }
         else if(inputIndex <= CurrentAttack.nextAttacks.Length - 1)
         {
-            Debug.Log("Valid combo input");
             NextAttack = CurrentAttack.nextAttacks[inputIndex];
         }
         else

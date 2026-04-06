@@ -19,6 +19,12 @@ public class EnemyManager : MonoBehaviour
         {
             Instance = GetComponent<EnemyManager>();
         }
+
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
         DontDestroyOnLoad(this);
     }
 

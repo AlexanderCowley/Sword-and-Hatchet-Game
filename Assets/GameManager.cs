@@ -10,13 +10,24 @@ public class GameManager : MonoBehaviour
     public static int ComboCount;
     static Stack<int> ActiveAttackIDs = new Stack<int>();
     public static PlayerInput CombatInput = new();
+
+    public static bool PlayerInputEnabled = true;
     void OnEnable()
     {
         if (Manager == null)
         {
-            Manager = GetComponent<GameManager>();
+            Manager = this;
         }
+
+        if(Manager != null && Manager != this)
+        {
+            Destroy(gameObject);
+        }
+        
         DontDestroyOnLoad(this);
+        
+        //Input
+        PlayerInputEnabled = true;
 
         //Cursor
         Cursor.lockState = CursorLockMode.Locked;
@@ -28,6 +39,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         PlayerHitboxes = Player.WeaponHitboxes;
+    }
+
+    public static void ResetPlayer()
+    {
+        Player.ResetPlayerStates();
     }
 
     public static int GenerateAttackIDs(int modifier = 1, bool isPlayer = false)
