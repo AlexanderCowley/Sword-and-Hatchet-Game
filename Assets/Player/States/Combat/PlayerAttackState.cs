@@ -15,7 +15,7 @@ public class PlayerAttackState : IState
     public PlayerAttackState(PlayerCombatStateMachine stateMachine)
     {
         StateMachine = stateMachine;
-        Player = GameManager.Player;
+        Player = StateMachine.Player;
     }
 
     void ProcessAttack()
@@ -26,7 +26,7 @@ public class PlayerAttackState : IState
             return;
         }
         SetupHitboxes();
-        GameManager.PlayerAnimator.Play(CurrentAttack.AnimationName, 0);
+        StateMachine.PlayerAnimator.Play(CurrentAttack.AnimationName, 0);
     }
 
     void SetupHitboxes()
@@ -71,7 +71,6 @@ public class PlayerAttackState : IState
         //Create conditions for moving from attack state to idle
         //Check for stun state
         //Checks if the Queue is empty
-        Debug.Log($"-----Attack Buffer: {CombatController.AttackBuffer.Count}----");
         if(CombatController.AttackBuffer.Count == 0)
         {
             //ChangeState to Idle, don't feel like testing this right now

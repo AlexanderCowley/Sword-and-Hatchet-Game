@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     public static PlayerInput CombatInput = new();
 
     public static bool PlayerInputEnabled = true;
-    void OnEnable()
+
+    void Awake()
     {
         if (Manager == null)
         {
@@ -34,16 +35,27 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         Player = FindAnyObjectByType<PlayerSystem>();
         PlayerAnimator = Player.transform.GetChild(5).GetComponent<Animator>();
+        PlayerHitboxes = Player.WeaponHitboxes;
     }
 
     void Start()
     {
-        PlayerHitboxes = Player.WeaponHitboxes;
+        //PlayerHitboxes = Player.WeaponHitboxes;
     }
 
     public static void ResetPlayer()
     {
         Player.ResetPlayerStates();
+        PlayerHitboxes = null;
+        PlayerAnimator = null;
+    }
+
+    public static void SceneInit()
+    {
+        PlayerInputEnabled = true;
+        Player = FindAnyObjectByType<PlayerSystem>();
+        PlayerHitboxes = Player.WeaponHitboxes;
+        PlayerAnimator = Player.transform.GetChild(5).GetComponent<Animator>();
     }
 
     public static int GenerateAttackIDs(int modifier = 1, bool isPlayer = false)

@@ -57,12 +57,22 @@ public class PlayerSystem : MonoBehaviour
 
     void Start()
     {
-        MovementStateMachine = new PlayerStateMachine(this);
-        CombatStateMachine = new PlayerCombatStateMachine(this);
+        //MovementStateMachine = new PlayerStateMachine(this);
+        //CombatStateMachine = new PlayerCombatStateMachine(this);
+        //Debug.Log($"{MovementStateMachine}, {CombatStateMachine}");
     }
 
     public void ResetPlayerStates()
     {
+        //Do something here. Uhhhhhhhhhh.
+        
+        if(MovementStateMachine == null | CombatStateMachine == null)
+        {
+            MovementStateMachine = new PlayerStateMachine(this);
+            CombatStateMachine = new PlayerCombatStateMachine(this);
+            return;
+        }
+        
         MovementStateMachine.ResetCombatState();
         CombatStateMachine.ResetCombatState();
     }
