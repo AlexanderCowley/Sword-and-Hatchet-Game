@@ -65,14 +65,7 @@ public class CombatController : MonoBehaviour
 
         DontDestroyOnLoad(this);
         AttackBuffer.Clear();
-        Debug.Log($"Attack Buffer Link: {AttackBuffer.Count}");
-
         CurrentPlayerWeapon = Weapons[0];
-    }
-
-    void Start()
-    {
-        PlayerHitboxes = GameManager.Player.WeaponHitboxes;
     }
 
     void ProcessAttack(AttackInput input)
@@ -146,6 +139,18 @@ public class CombatController : MonoBehaviour
             ProcessAttack(input);
         }
 
+    }
+
+    public static void SceneInit()
+    {
+        PlayerHitboxes = GameManager.Player.WeaponHitboxes;
+    }
+
+    public static void SceneCleanup()
+    {
+        HitboxCounter = 0;
+        AttackBuffer.Clear();
+        PlayerHitboxes = GameManager.Player.WeaponHitboxes;
     }
 
     public void Update()

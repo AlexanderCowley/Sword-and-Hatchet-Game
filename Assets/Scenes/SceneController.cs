@@ -18,20 +18,32 @@ public class SceneController : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(this);
-        GameManager.PlayerInputEnabled = true;
+        //GameManager.SceneInit();
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += SceneInit;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= SceneInit;
     }
 
     public static void GoToNextScene()
     {
-        SceneCleanUp();
+        GameManager.PlayerInputEnabled = false;
+        CombatController.SceneCleanup();
         sceneIndex = (sceneIndex + 1) % SceneManager.sceneCountInBuildSettings;
         SceneManager.LoadScene(sceneIndex);
     }
 
-    static void SceneCleanUp()
+    void SceneInit(Scene scene, LoadSceneMode loadSceneMode)
     {
-        GameManager.PlayerInputEnabled = false;
-        CombatController.AttackBuffer.Clear();
+        CombatController.SceneInit();
         GameManager.ResetPlayer();
+        GameManager.SceneInit();
+        GameManager.PlayerInputEnabled = true;
     }
 }
