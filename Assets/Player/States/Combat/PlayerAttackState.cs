@@ -34,10 +34,8 @@ public class PlayerAttackState : IState
         HitBox[] hitBoxes = Player.WeaponHitboxes;
         int hitboxCount = CurrentAttack.HitboxPositions.Length;
         //Maybe use a set amount to remove for loop?
-        //This is going to happen almost instantly. Might need a coroutine?
         for(int i = 0; i < hitboxCount; i++)
         {
-            //Problem area here
             hitBoxes[i].AssignHitboxInfo(CurrentAttack);
             hitBoxes[i].gameObject.transform.localPosition = CurrentAttack.HitboxPositions[i];
         }
