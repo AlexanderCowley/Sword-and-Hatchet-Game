@@ -21,16 +21,4 @@ public class WeaponController : MonoBehaviour
 
         DontDestroyOnLoad(this);
     }
-
-    public void LookupCombo(WeaponData weapon, AttackInput attackInput)
-    {
-        CombatController.ComboCount++;
-        //Reference AttackData run Animator to play clip based on ID/Name
-        //GameManager.PlayerAnimator.Play("LBaseAttack");
-    }
-
-    void OnEnable()
-    {
-        CombatController.ComboCount = 0;
-    }
 }

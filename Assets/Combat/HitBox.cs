@@ -72,6 +72,7 @@ public class HitBox : MonoBehaviour
             if(HitboxData == null)
             {
                 Debug.LogWarning("No Attack Data!");
+                return;
             }
         }
     }
