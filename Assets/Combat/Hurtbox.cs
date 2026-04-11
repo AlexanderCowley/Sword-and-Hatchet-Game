@@ -41,19 +41,27 @@ public class Hurtbox : MonoBehaviour
                 StartTimer = true;
                 return;
             }
+
             //Set up timer and queue
             ActiveAttackIDs.Enqueue(hitBox.AttackID);
             StartTimer = true;
             Health -= hitBox.Damage;
             Debug.Log($"{transInstance.name} Hitbox -> Health: {Health}", gameObject);
-
+            CombatController.ComboCount++;
+            CombatController.OnHitHandler.Invoke();
             //Enemy Death
             if(Health <= 0)
             {
                 Debug.Log($"{transInstance.name} Hitbox -> Death", gameObject);
+                ActiveAttackIDs.Clear();
                 gameObject.SetActive(false);
             }
         }
+    }
+
+    void OnDisable()
+    {
+        ActiveAttackIDs.Clear();
     }
 
     void HitboxTimer()

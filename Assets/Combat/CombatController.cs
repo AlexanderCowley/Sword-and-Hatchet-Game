@@ -36,6 +36,8 @@ public class CombatController : MonoBehaviour
 
     //Combo Count
     public static int ComboCount = 0;
+    public delegate void OnHit();
+    public static OnHit OnHitHandler;
 
     [Header("PLAYER WEAPONS")]
     [Space(3)]
